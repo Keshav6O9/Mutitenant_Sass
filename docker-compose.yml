@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  tenant-service:
+    build: ./tenant-service
+    ports:
+      - "8001:8001"
+    environment:
+      DATABASE_URL: postgresql://tenant_Db_owner:6ngX1vSWtPDG@ep-super-rice-a5ow1ttu.us-east-2.aws.neon.tech/tenant_Db?sslmode=require
+    depends_on:
+      - rabbitmq  # Optional, for event-driven communication
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: postgresql://tenant_Db_owner:6ngX1vSWtPDG@ep-super-rice-a5ow1ttu.us-east-2.aws.neon.tech/userService_db
+    depends_on:
+      - rabbitmq  # Optional, for event-driven communication
+
+  rabbitmq:  # Optional, for event-driven communication
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
