@@ -18,6 +18,15 @@ services:
     depends_on:
       - rabbitmq  # Optional, for event-driven communication
 
+  subscription-service:
+      build: ./user-service
+      ports:
+        - "8003:8003"
+      environment:
+        DATABASE_URL: postgresql://tenant_Db_owner:6ngX1vSWtPDG@ep-super-rice-a5ow1ttu.us-east-2.aws.neon.tech/subscription_db?sslmode=require
+      depends_on:
+        - rabbitmq  # Optional, for event-driven communication
+
   rabbitmq:  # Optional, for event-driven communication
     image: rabbitmq:3-management
     ports:
